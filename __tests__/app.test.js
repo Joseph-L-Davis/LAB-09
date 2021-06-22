@@ -16,7 +16,7 @@ describe('demo routes', () => {
         name: 'god',
         email: 'gawd@dagates.com'
       });
-    console.log(res.body);
+    
     expect(res.body).toEqual({
       id: '1',
       name: 'god',
@@ -52,6 +52,40 @@ describe('demo routes', () => {
       .get('/api/v1/users');
 
     expect(res.body).toEqual([jason, freddy]);
+  });
+
+  it('PUT user name', async () => {
+    const freddy = await request(app)
+      .post('/api/v1/users')
+      .send({
+        name: 'fred',
+        email: 'krueger@dreamland'
+      });
+
+    const updatedFreddy = await User.updateUser(freddy.body.id, {
+      name: 'frederick',
+      email: 'fancyfred@killkillkill.com'
+    });
+
+    const res = await request(app)
+      .get(`/api/v1/users/${updatedFreddy.id}`);
+    
+    expect(res.body).toEqual(updatedFreddy);
+  });
+
+  it('DELETE user', async () => {
+    const freddy = await request(app)
+      .post('/api/v1/users')
+      .send({
+        name: 'fred',
+        email: 'krueger@dreamland'
+      });
+
+    const res = await User.deleteUser(freddy.body.id);
+    request(app)
+      .delete(`/api/v1/users/${freddy.id}`);
+
+    expect(res.body).toEqual(freddy.id);
   });
 
   
