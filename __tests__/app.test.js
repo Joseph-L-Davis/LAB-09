@@ -16,12 +16,12 @@ describe('demo routes', () => {
         name: 'god',
         email: 'gawd@dagates.com'
       });
-    console.log(res.body.word);
+    console.log(res.body);
     expect(res.body).toEqual({
       id: '1',
       name: 'god',
       email: 'gawd@dagates.com',
-      word: expect.any(Object)
+      word: expect.any(String)
     });
   });
 
